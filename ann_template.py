@@ -68,14 +68,15 @@ class ANN(nn.Module):
 # Initialize Network , Optimizer and Loss function
 ann = ANN()
 ann.to(device)
-optimizer = torch.optim.Adam(ann.parameters(), lr=0.001)
+optimizer = torch.optim.AdamW(ann.parameters(), lr=0.001, weight_decay=1e-4)
 criterion = nn.MSELoss()
 
+scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.5, patience=15)
 
 # Different Optimizers
-sgd_optimizer = torch.optim.SGD(ann.parameters(), lr=0.01, momentum=0.9)
-nesterov_optimizer = torch.optim.SGD(ann.parameters(), lr=0.01, momentum=0.9, nesterov=True)
-rms_optimizer = torch.optim.RMSprop(ann.parameters(), lr=0.01, alpha = 0.99)
+# sgd_optimizer = torch.optim.SGD(ann.parameters(), lr=0.01, momentum=0.9)
+# nesterov_optimizer = torch.optim.SGD(ann.parameters(), lr=0.01, momentum=0.9, nesterov=True)
+# rms_optimizer = torch.optim.RMSprop(ann.parameters(), lr=0.01, alpha = 0.99)
 
 
 # Training Loop
